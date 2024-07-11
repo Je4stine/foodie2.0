@@ -4,11 +4,14 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-06-28T08:14:59.233260600Z">
+        <DropdownSelection timestamp="2024-07-09T06:45:52.460401900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Mopawa\.android\avd\Pixel_5_API_30.avd" />
+              <DeviceId pluginId="FirebaseDirectAccess" identifier="reservation=projects/artway-fa8c7/deviceSessions/session-35jdxmmqpxw6r" />
             </handle>
+            <template>
+              <DeviceId pluginId="FirebaseDirectAccess" type="TEMPLATE" identifier="model_id=dm3q/34" />
+            </template>
           </Target>
         </DropdownSelection>
         <DialogSelection />

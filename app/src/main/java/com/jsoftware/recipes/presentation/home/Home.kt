@@ -1,6 +1,7 @@
 package com.jsoftware.recipes.presentation.home
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -81,7 +82,6 @@ fun Home(
     ) { paddingValues ->
 
 
-
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
@@ -91,10 +91,11 @@ fun Home(
         ) {
 
             item {
-                HeroSection(onItemClick = {
-                    navController.navigate("details/${state.idMeal}")
-                },
-                   mealImg = state.strMealThumb ?: ""
+                HeroSection(
+                    onItemClick = {
+                        navController.navigate("details/${state.idMeal}")
+                    },
+                    mealImg = state.strMealThumb ?: ""
                 )
             }
             item {
@@ -111,7 +112,7 @@ fun Home(
                     ) {
                         items(popularState.popularList!!.size) { index ->
                             val popular = popularState.popularList!![index]
-                            PopularItems( img = popular.strMealThumb?:"", cardClicked = {
+                            PopularItems(img = popular.strMealThumb ?: "", cardClicked = {
                                 navController.navigate("details/${popular.idMeal}")
                             })
                         }
@@ -136,18 +137,24 @@ fun Home(
                             columns = GridCells.Fixed(3),
                             modifier = Modifier.padding(20.dp)
                         ) {
-                            items(categoryState.category!!.size){index ->
+                            items(categoryState.category!!.size) { index ->
                                 val category = categoryState.category!![index]
-                                CategoryItem( img = category.strCategoryThumb?:"" , title = category.strCategory?:"")
+                                CategoryItem(
+                                    img = category.strCategoryThumb ?: "",
+                                    title = category.strCategory ?: "",
+                                    onCategoryClick = {
+                                        navController.navigate("categorydetails/${category.strCategory}")
+                                    }
+                                )
                             }
 
                         }
                     }
 
-                    }
                 }
+            }
 
-         }
+        }
     }
 }
 
@@ -155,7 +162,7 @@ fun Home(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroSection(
-    onItemClick: ()->Unit,
+    onItemClick: () -> Unit,
     mealImg: String
 ) {
     Log.d("HeroSection", "Meal Image URL: $mealImg")
@@ -169,7 +176,7 @@ fun HeroSection(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(
-                onClick =  onItemClick ,
+                onClick = onItemClick,
                 modifier = Modifier
                     .fillMaxWidth(1f)
                     .height(200.dp)
@@ -194,7 +201,7 @@ fun HeroSection(
 @Composable
 private fun PopularItems(
     img: String,
-    cardClicked:()->Unit
+    cardClicked: () -> Unit
 ) {
     Card(
         onClick = cardClicked,
@@ -218,25 +225,30 @@ private fun PopularItems(
 }
 
 
-
-
 @Composable
 private fun CategoryItem(
     modifier: Modifier = Modifier,
     img: String,
-    title: String
+    title: String,
+    onCategoryClick: ()->Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = img,
-            contentDescription = null,
-            modifier = Modifier
-                .height(90.dp)
-                .width(90.dp),
-            contentScale = ContentScale.Fit
-        )
+        Box (
+            modifier = Modifier.clickable {
+                onCategoryClick()
+            }
+        ){
+            AsyncImage(
+                model = img,
+                contentDescription = null,
+                modifier = Modifier
+                    .height(90.dp)
+                    .width(90.dp),
+                contentScale = ContentScale.Fit
+            )
+        }
         Text(text = title, style = MaterialTheme.typography.bodySmall)
     }
 }
